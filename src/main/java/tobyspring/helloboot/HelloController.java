@@ -1,7 +1,25 @@
 package tobyspring.helloboot;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Objects;
+
+@RequestMapping("/hello")
+@Controller
 public class HelloController {
-    public String hello(String name){
-        return "hello spring " + name;
+    //HelloService helloService = new SimpleHelloService();
+    //todo : assembler(Spring Container) 가 생성자 파라미터로 HelloService 를 주입
+    private final HelloService helloService;
+
+    public HelloController(HelloService helloService) {
+        this.helloService = helloService;
+    }
+    @GetMapping
+    @ResponseBody
+    public String hello(String name) {
+        return helloService.sayHello(Objects.requireNonNull(name));
     }
 }
